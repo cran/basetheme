@@ -1,10 +1,16 @@
+[![CRAN version](http://www.r-pkg.org/badges/version/basetheme)](https://cran.r-project.org/package=basetheme)
+[![dependencies](https://tinyverse.netlify.com/badge/basetheme)](https://CRAN.R-project.org/package=basetheme)
+[![Monthly Downloads](https://cranlogs.r-pkg.org/badges/basetheme)](https://cranlogs.r-pkg.org/badges/basetheme)
+
 # basetheme #
 
 R package implementing a theming system for base plotting.
 
 ## Description ##
 
-The `basetheme()` function provides a way to set and unset R plotting settings.
+The `basetheme()` function provides a **persistent** way to set and unset R plotting settings.
+All the user has to do is set the theme once and it will be consistenlty applied to all the subsequent plots.
+Even after the graphics device is closed.
 
 ## Themes ##
 
@@ -17,43 +23,55 @@ legend("bottom", legend=unique(iris$Species), col=unique(iris$Species),
        )
 ```
 
-![default](https://i.imgur.com/aXSfYqW.png)
+![default](http://karolis.koncevicius.lt/data/basetheme/default.png)
 
 ```r
 basetheme("clean")
 ```
 
-![clean](https://i.imgur.com/I45MqM1.png)
+![clean](http://karolis.koncevicius.lt/data/basetheme/clean.png)
 
 ```r
 basetheme("brutal")
 ```
 
-![brutal](https://i.imgur.com/xcsMLxN.png)
+![brutal](http://karolis.koncevicius.lt/data/basetheme/brutal.png)
 
 ```r
 basetheme("ink")
 ```
 
-![ink](https://i.imgur.com/P3d810w.png)
+![ink](http://karolis.koncevicius.lt/data/basetheme/ink.png)
 
 ```r
 basetheme("dark")
 ```
 
-![dark](https://i.imgur.com/bpwa98x.png)
+![dark](http://karolis.koncevicius.lt/data/basetheme/dark.png)
+
+```r
+basetheme("deepblue")
+```
+
+![deepblue](http://karolis.koncevicius.lt/data/basetheme/deepblue.png)
+
+```r
+basetheme("royal")
+```
+
+![deepblue](http://karolis.koncevicius.lt/data/basetheme/royal.png)
 
 ```r
 basetheme("minimal")
 ```
 
-![minimal](https://i.imgur.com/iHPMv5B.png)
+![minimal](http://karolis.koncevicius.lt/data/basetheme/minimal.png)
 
 ```r
 basetheme("void")
 ```
 
-![void](https://i.imgur.com/oexLiVW.png)
+![void](http://karolis.koncevicius.lt/data/basetheme/void.png)
 
 
 ## Usage ##
@@ -70,7 +88,9 @@ basetheme("clean")
 2. Specifying a list with theme values
 
 ```r
-theme <- basetheme_clean()
+theme <- basetheme("clean")
+theme$cex.main <- 2
+
 basetheme(theme)
 ```
 
@@ -136,14 +156,39 @@ barplot(1:9, col=1:9, names=LETTERS[1:9], main="barplot", ylab="heights")
 
 ## Installation ##
 
+From **CRAN**:
+
+```r
+install.packages("basetheme")
+```
+
 Using **devtools** library:
 
 ```r
 devtools::install_github("KKPMW/basetheme")
 ```
 
+To install the **developement version** (stable updates not yet on **CRAN**):
+
+```r
+library(devtools)
+install_github("KKPMW/basetheme", ref="dev")
+```
+
 ## Details ##
 
 Under the hood this library utilizes two hooks that are implemented in the `plot.new()` function:
 `before.plot.new` and `plot.new`.
+
+## See Also ##
+
+### Packages ###
+
+CRAN:
+
+1. [**prettyB**](https://github.com/jumpingrivers/prettyB)
+
+GitHub:
+
+1. [**styles**](https://github.com/leehazel/styles)
 
