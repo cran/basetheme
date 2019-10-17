@@ -1,12 +1,28 @@
 Package: basetheme
 ==================
 
+Version 0.1.2 [TBD]
+
+NEW FEATURES
+
+ * Function 'num2col' for turning numbers into colors.
+ * Function 'lab2col' for turning labels into colors.
+
+IMPROVEMENTS
+
+ * Implemented consistent color palettes for all themes.
+
+BUG FIXES
+
+ * Fixed a bug that ingnored par(new=TRUE).
+
+
 Version 0.1.1 [2019-07-17]
 
 IMPROVEMENTS
 
-* Removed axis ticks from the "minimal" theme.
-* Adjusted "void" theme to be black and white.
+ * Removed axis ticks from the "minimal" theme.
+ * Adjusted "void" theme to be black and white.
 
 NEW FEATURES
 

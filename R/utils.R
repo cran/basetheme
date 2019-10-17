@@ -29,24 +29,27 @@ get_theme <- function(theme=NULL) {
 # function to set par settings
 setParFun <- function(plist) {
   parList <- plist
-  parList$palette <- NULL
+  parList[grep("^palette\\.?", names(parList))] <- NULL
   parList[grep("^rect\\.", names(parList))] <- NULL
   function(set=TRUE) {
-    if(set)
+    if(set) {
+      parList$new <- graphics::par('new')
       do.call(graphics::par, parList)
-    else
+    } else {
       parList
+    }
   }
 }
 
 # function to set palette settings
 setPalFun <- function(plist) {
+  plist <- plist[grep("^palette\\.?", names(plist))]
   if(!is.null(plist$palette)) {
     function(set=TRUE) {
       if(set)
         grDevices::palette(value=plist$palette)
       else
-        list(palette=plist$palette)
+        plist
     }
   } else {
     NULL
