@@ -9,180 +9,100 @@ R package implementing a theming system for base plotting.
 ## Description ##
 
 The `basetheme()` function provides a **persistent** way to set and unset R plotting settings.
-All the user has to do is set the theme once and it will be consistenlty applied to all the subsequent plots.
-Even after the graphics device is closed.
-
-## Themes ##
-
-Demonstration using:
-
-```r
-pairs(iris[,1:4], col=iris$Species)
-legend("bottom", legend=unique(iris$Species), col=unique(iris$Species),
-       pch=par("pch"), cex=0.8, horiz=TRUE, bty="n", inset=c(0,1), xpd=TRUE
-       )
-```
-
-![default](http://karolis.koncevicius.lt/data/basetheme/default.png)
-
-```r
-basetheme("clean")
-```
-
-![clean](http://karolis.koncevicius.lt/data/basetheme/clean.png)
-
-```r
-basetheme("brutal")
-```
-
-![brutal](http://karolis.koncevicius.lt/data/basetheme/brutal.png)
-
-```r
-basetheme("ink")
-```
-
-![ink](http://karolis.koncevicius.lt/data/basetheme/ink.png)
-
-```r
-basetheme("dark")
-```
-
-![dark](http://karolis.koncevicius.lt/data/basetheme/dark.png)
-
-```r
-basetheme("deepblue")
-```
-
-![deepblue](http://karolis.koncevicius.lt/data/basetheme/deepblue.png)
-
-```r
-basetheme("royal")
-```
-
-![deepblue](http://karolis.koncevicius.lt/data/basetheme/royal.png)
-
-```r
-basetheme("minimal")
-```
-
-![minimal](http://karolis.koncevicius.lt/data/basetheme/minimal.png)
-
-```r
-basetheme("void")
-```
-
-![void](http://karolis.koncevicius.lt/data/basetheme/void.png)
-
+All the user has to do is set the theme once and it will be consistently applied to all the subsequent plots even after the graphics device is closed.
+The function only works with base graphics system, so if you are exclusively working with `ggplot2`, boy, did you install the wrong package.
 
 ## Usage ##
 
-Everything is done by calling the `basetheme()` function.
-There are 4 different modes:
-
-1. Choosing a theme by name
+The persistent settings are controlled via the `basetheme()` function.
+To an extent this function mimics the behaviour and arguments of `par()` and has multiple modes of operation:
 
 ```r
+# Specifying the `par()` values directly:
+basetheme(pch=19, mgp=c(2,.7,0), tck=-.01)
+
+# Choosing a theme by name:
 basetheme("clean")
-```
 
-2. Specifying a list with theme values
+# Using a mix of the above:
+basetheme("minimal", bg="grey", pch=1)
 
-```r
+# Specifying a list with theme values:
 theme <- basetheme("clean")
 theme$cex.main <- 2
-
 basetheme(theme)
-```
 
-3. Specifying the values directly
+# Obtaining a list of parameters for the current theme:
+basetheme()
 
-```r
-basetheme(pch=19, bg="blue")
-```
-
-4. Removing the current theme
-
-```r
+# Removing the current theme:
 basetheme(NULL)
 ```
 
-5. Obtaining list of theme parametrs
+In addition to `basetheme()` two additional functions are provided for colors manipulation within the plots: `num2col()` and `lab2col()`.
+See documentation: `help(basetheme)`, `help(num2col)`, `help(lab2col)` and examples: `example(basetheme)`, `example(num2col)`, `example(lab2col)` for more details.
+
+## Some Examples ##
+
+A few examples using of how it all works together.
 
 ```r
-# current theme
-basetheme()
-# specified theme
-theme <- basetheme("clean")
+basetheme("void")
+boxplot(split(iris$Sepal.Width, iris$Species))
 ```
 
-Additional parameters can be specified everytime.
-For example if you like a theme (say "minimal") but would like to change a few parameters:
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_1a.png)
 
 ```r
-basetheme("minimal", bg="grey", pch=1)
+basetheme("clean")
+barplot(rivers, col=num2col(rivers))
 ```
 
-
-### Creating a Theme ###
-
-Simplest way is to obtain a default list of values and change them.
-
-Here is an example of creating a grey-ish sheme:
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_2a.png)
 
 ```r
-pars <- basetheme("default")
-pars$palette <- c("black", grey.colors(8))  # numbered colors - shades of grey
-pars$bg  <- "white"                         # some colors
-pars$fg  <- "gray20"                        # some colors
-pars$col <- "gray20"                        # some colors
-pars$col.main <- "black"                    # some colors
-pars$col.axis <- "gray20"                   # some colors
-pars$col.lab  <- "gray20"                   # some colors
-pars$family   <-  "mono"                    # change font
-pars$lab      <-  c(10,10,7)                # more ticks on axes
-pars$cex.axis <-  0.8                       # smaller axis labels
-pars$las      <-  1                         # always horizontal axis labels
-pars$rect.border <- "black"                 # box around the plot
-pars$rect.lwd    <- 4                       # ticker border
-
-basetheme(pars)
-
-barplot(1:9, col=1:9, names=LETTERS[1:9], main="barplot", ylab="heights")
-
+basetheme("brutal")
+plot(hclust(dist(USArrests), "ward.D2"), hang=-1)
 ```
 
-![ex9](https://i.imgur.com/qR1T4P7.png)
-
-
-## Installation ##
-
-From **CRAN**:
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_3a.png)
 
 ```r
-install.packages("basetheme")
+basetheme("royal")
+pairs(iris[-5], bg=lab2col(iris$Species), col=0)
 ```
 
-Using **devtools** library:
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_4a.png)
 
 ```r
-devtools::install_github("KKPMW/basetheme")
+basetheme("deepblue")
+pairs(iris[-5], bg=num2col(iris[,1]), col=0)
 ```
 
-To install the **developement version** (stable updates not yet on **CRAN**):
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_5a.png)
 
 ```r
-library(devtools)
-install_github("KKPMW/basetheme", ref="dev")
+x <- seq(-1.95, 1.95, length = 30)
+y <- seq(-1.95, 1.95, length = 35)
+z <- outer(x, y, function(a, b) a*b^2)
+
+basetheme("dark")
+persp(x, y, z, theta=-45)
 ```
 
-## Details ##
+![](http://karolis.koncevicius.lt/data/basetheme/examples/ex_6a.png)
 
-Under the hood this library utilizes two hooks that are implemented in the `plot.new()` function:
-`before.plot.new` and `plot.new`.
+
+## More Details ##
+
+Additional details can be found in the Wiki pages:
+
+1. [List of Available Themes](https://github.com/karoliskoncevicius/basetheme/wiki/Theme-List)
+2. [Creating Custom Themes](https://github.com/karoliskoncevicius/basetheme/wiki/Creating-Themes)
+3. [Installation Instructions](https://github.com/karoliskoncevicius/basetheme/wiki/Installation)
+4. [Implementation Details](https://github.com/karoliskoncevicius/basetheme/wiki/Implementation-Details)
 
 ## See Also ##
-
-### Packages ###
 
 CRAN:
 
